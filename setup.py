@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'wili_db'
+package_name = 'wili_io'
 
 setup(
     name=package_name,
@@ -15,12 +15,12 @@ setup(
     zip_safe=True,
     maintainer='Shinagawa Kazemaru',
     maintainer_email='marukazemaru0@gmail.com',
-    description='database proxy for WILI(Where Is Lost Item)',
+    description='input and output for WiLI(Where is a Lost Item)',
     license='MIT',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'db_proxy=wili_db.db_proxy:main'
+            'db_proxy=wili_io.db_proxy:main'
         ],
     },
 )
