@@ -13,7 +13,7 @@
 
 データベースソフトウェアにはSQLite3を利用しています。<br>
 言語はPythonです。<br>
-[wili_db](http://gihub.com/MaruKazeMaru/wili_db)から派生しました。
+[wili_db](https://github.com/MaruKazeMaru/wili_db)から派生しました。
 
 ## ライセンス
 MITライセンスです。<br>
