@@ -41,7 +41,7 @@ class DBProxy(Node):
         hmm.tr_prob = [r[0] for r in self.db_cur.fetchall()]
 
         # get gaussian of each motion
-        self.db_cur.execute('SELCT avr_x, avr_y, var_xx, var_xy, var_yy,  FROM gaussian ORDER BY motion')
+        self.db_cur.execute('SELECT avr_x, avr_y, var_xx, var_xy, var_yy,  FROM gaussian ORDER BY motion')
         gs = []
         for r in self.db_cur.fetchall():
             g = Gaussian()
