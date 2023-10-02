@@ -43,7 +43,9 @@ class HTTPBridge(Node):
 def main():
     q_from_ros = Queue()
     q_to_ros = Queue()
-    Thread(target=http_start, args=('/var/lib/wili/test/db.sqlite3', q_from_ros, q_to_ros)).start()
+    http_thread = Thread(target=http_start, args=('/var/lib/wili/test/db.sqlite3', q_from_ros, q_to_ros))
+    http_thread.setDaemon(True)
+    http_thread.start()
     rclpy.init()
     node = HTTPBridge()
     node.logger.info('start')
