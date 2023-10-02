@@ -5,13 +5,13 @@
 
 import rclpy
 from rclpy.node import Node
-from rclpy import Future
 from rclpy.client import Client
-from queue import Queue, Empty
+from queue import Queue
 from threading import Thread
-from wili_io.http_ import http_start
-import wili_io.queue_packet as qp
+
 from wili_msgs.srv import Suggest
+from wili_io.utils._http import http_start
+import wili_io.utils._queue.queue_packet as qp
 
 class ServiceBundle:
     #def __init__(self, client:Client, service_result_to_queue_response, future:Future | None = None):

@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: 2023 ShinagwaKazemaru
+# SPDX-License-Identifier: MIT License
+
 HEADER_SUGGEST = b's'
 HEADER_TR_PROB = b't'
 HEADER_HEATMAP = b'h'
