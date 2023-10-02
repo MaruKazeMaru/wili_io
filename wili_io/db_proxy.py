@@ -3,27 +3,25 @@
 # SPDX-FileCopyrightText: 2023 ShinagwaKazemaru
 # SPDX-License-Identifier: MIT License
 
-import sqlite3
 import rclpy
-from rclpy.parameter import Parameter
 from rclpy.node import Node
+
 from wili_msgs.msg import HMM, Gaussian, Heatmap
 from wili_msgs.srv import GetHMM
-from math import sqrt
+from wili_io.utils._sqlite3.db import DBManager
 
 class DBProxy(Node):
     def __init__(self, db_path:str):
         super().__init__("db_proxy")
 
-        self.db_conn = sqlite3.connect(db_path)
-        self.db_cur = self.db_conn.cursor()
+        self.db = DBManager(db_path)
         self.srv_tr_mat = self.create_service(GetHMM, "get_hmm", self.get_hmm)
 
         self.logger = self.get_logger()
 
 
     def destroy_node(self):
-        self.db_conn.close()
+        self.db.conn.close()
         super().destroy_node()
 
 
@@ -33,17 +31,14 @@ class DBProxy(Node):
         hmm = HMM()
 
         # get number of motion
-        self.db_cur.execute('SELECT COUNT(id) FROM motion')
-        hmm.motion_num = self.db_cur.fetchone()
+        hmm.motion_num = self.db.select_fetch_motion_num()
 
         # get transition probabilities
-        self.db_cur.execute('SELECT elem FROM tr_prob ORDER BY from_motion, to_motion')
-        hmm.tr_prob = [r[0] for r in self.db_cur.fetchall()]
+        hmm.tr_prob = self.db.select_fetch_tr_prob()
 
         # get gaussian of each motion
-        self.db_cur.execute('SELECT avr_x, avr_y, var_xx, var_xy, var_yy,  FROM gaussian ORDER BY motion')
         gs = []
-        for r in self.db_cur.fetchall():
+        for r in self.db.select_fetch_gaussian():
             g = Gaussian()
             g.avr_x = r[0]
             g.avr_y = r[1]

@@ -4,25 +4,20 @@
 # SPDX-License-Identifier: MIT License
 
 import numpy as np
-from .server_assistant import db_cursor, queue_to_ros, queue_from_ros
+
+from .server_assistant import db, queue_to_ros, queue_from_ros
 import wili_io.utils._queue.queue_packet as qp
-
-
-def motion_num() -> int:
-    db_cursor().execute('SELECT COUNT(id) FROM motion')
-    return (db_cursor().fetchone())[0]
 
 
 def get_motion_num() -> dict:
     # n := number of motion
-    n = motion_num()
+    n = db().select_fetch_motion_num()
     return {'motion_num': n}
 
 
 def select_heatmap() -> dict:
-    n = motion_num()
-    db_cursor().execute('SELECT avr_x, avr_y, var_xx, var_xy, var_yy FROM gaussian ORDER BY motion')
-    gaussians = db_cursor().fetchall()
+    n = db().select_fetch_motion_num()
+    gaussians = db().select_fetch_gaussian()
     gaussians = np.array(gaussians, dtype='float32')
 
     return {'motion_num': n, 'avr': gaussians[:,0:2].tolist(), 'var': gaussians[:,2:5].tolist()}

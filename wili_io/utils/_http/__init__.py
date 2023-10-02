@@ -14,7 +14,6 @@ from .server_assistant import init_assistant
 
 
 def http_start(db_path:str, queue_from_ros:Queue, queue_to_ros:Queue()):
-    conn = sqlite3.connect(db_path)
-    init_assistant(conn, queue_from_ros,  queue_to_ros)
+    init_assistant(db_path, queue_from_ros,  queue_to_ros)
     httpd = HTTPServer(('localhost', 5000), WiliHandler)
     httpd.serve_forever()
