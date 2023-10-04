@@ -15,12 +15,20 @@ def get_motion_num() -> dict:
     return {'motion_num': n}
 
 
-def select_heatmap() -> dict:
+def get_heatmap() -> dict:
     n = db().count_motion()
     gaussians = db().select_fetch_gaussian()
     gaussians = np.array(gaussians, dtype='float32')
 
     return {'motion_num': n, 'avr': gaussians[:,0:2].tolist(), 'var': gaussians[:,2:5].tolist()}
+
+
+def get_tr_prob() -> dict:
+    n = db().count_motion()
+    tr_prob = db().select_fetch_tr_prob()
+    tr_prob = np.array(tr_prob, dtype='float32').reshape((n,n))
+
+    return {'motion_num': n, 'tr_prob': tr_prob.tolist()}
 
 
 def call_suggest() -> dict:
@@ -34,6 +42,7 @@ def call_suggest() -> dict:
 
 ROUTES = {
     '/motion_num': get_motion_num,
-    '/heatmap': select_heatmap,
+    '/heatmap': get_heatmap,
+    '/tr_prob': get_tr_prob,
     '/suggest': call_suggest,
 }
