@@ -31,7 +31,7 @@ class DBProxy(Node):
         hmm = HMM()
 
         # get number of motion
-        hmm.motion_num = self.db.select_fetch_motion_num()
+        hmm.motion_num = self.db.count_motion()
 
         # get transition probabilities
         hmm.tr_prob = self.db.select_fetch_tr_prob()
@@ -58,7 +58,7 @@ class DBProxy(Node):
 
 def main():
     rclpy.init()
-    node = DBProxy('/var/lib/wili/test/db.sqlite3')
+    node = DBProxy('/var/wili/db.sqlite3')
     node.logger.info('start')
     try:
         rclpy.spin(node)

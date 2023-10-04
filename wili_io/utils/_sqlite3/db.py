@@ -11,7 +11,7 @@ class DBManager:
         self.cur = self.conn.cursor()
 
 
-    def select_fetch_motion_num(self) -> int:
+    def count_motion(self) -> int:
         # get number of motion
         self.cur.execute('SELECT COUNT(id) FROM motion')
         return self.cur.fetchone()[0]

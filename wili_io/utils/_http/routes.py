@@ -11,12 +11,12 @@ import wili_io.utils._queue.queue_packet as qp
 
 def get_motion_num() -> dict:
     # n := number of motion
-    n = db().select_fetch_motion_num()
+    n = db().count_motion()
     return {'motion_num': n}
 
 
 def select_heatmap() -> dict:
-    n = db().select_fetch_motion_num()
+    n = db().count_motion()
     gaussians = db().select_fetch_gaussian()
     gaussians = np.array(gaussians, dtype='float32')
 
