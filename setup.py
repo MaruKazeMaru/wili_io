@@ -25,6 +25,7 @@ setup(
         'console_scripts': [
             'db_proxy=wili_io.db_proxy:main',
             'http_bridge=wili_io.http_bridge:main',
+            'socket_bridge=wili_io.socket_bridge:main',
         ],
     },
 )
