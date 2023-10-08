@@ -7,7 +7,7 @@ import sqlite3
 
 class DBManager:
     def __init__(self, db_path:str):
-        self.conn = sqlite3.connect(db_path)
+        self.conn = sqlite3.connect(db_path, check_same_thread=False)
         self.cur = self.conn.cursor()
 
 

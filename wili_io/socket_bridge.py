@@ -6,6 +6,7 @@ from queue import Queue
 from threading import Thread
 import struct
 import os
+import numpy as np
 
 from wili_io.utils._sqlite3.db import DBManager
 from wili_msgs.srv import Suggest
@@ -26,6 +27,7 @@ class SocketBridge(Node):
 
         self.calls = {
             b'a': self.call_motion_num,
+            b'c': self.call_heatmap,
             b'd': self.call_suggest,
         }
 
@@ -58,6 +60,18 @@ class SocketBridge(Node):
 
     def call_motion_num(self) -> bytes:
         return self.db.count_motion().to_bytes(1, 'little')
+
+
+    def call_heatmap(self) -> bytes:
+        n = self.db.count_motion()
+        gaussians = self.db.select_fetch_gaussian()
+
+        fmt = '<' + ('f' * 5)
+        gaussians_bytes = [struct.pack(fmt, *(gaussians[i])) for i in range(n)]
+
+        n_bytes = n.to_bytes(1, 'little')
+
+        return n_bytes + b''.join(gaussians_bytes)
 
 
     def call_suggest(self) -> bytes:
