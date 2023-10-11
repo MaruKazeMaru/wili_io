@@ -49,7 +49,7 @@ class DBProxy(Node):
 
         for i in range(hmm.motion_num):
             heatmap = Heatmap()
-            heatmap.gaussian = g[i]
+            heatmap.gaussian = gs[i]
             hmm.heatmaps.append(heatmap)
 
         res.hmm = hmm
