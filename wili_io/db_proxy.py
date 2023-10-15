@@ -34,6 +34,9 @@ class DBProxy(Node):
         hmm.motion_num = self.db.count_motion()
 
         # get transition probabilities
+        hmm.init_prob = self.db.select_fetch_init_prob()
+
+        # get transition probabilities
         hmm.tr_prob = self.db.select_fetch_tr_prob()
 
         # get gaussian of each motion

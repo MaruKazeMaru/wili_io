@@ -23,6 +23,7 @@ class SocketBridge(Node):
             proto=0 \
         )
         self.socket.bind(socket_file_path)
+        os.chmod(socket_file_path, 0o777)
         self.socket.listen()
 
         self.calls = {

@@ -17,13 +17,24 @@ class DBManager:
         return self.cur.fetchone()[0]
     
 
+    def select_fetch_init_prob(self) -> list[float]:
+        # get transition probabilities
+        self.cur.execute('SELECT data FROM init_prob ORDER BY motion')
+        return [r[0] for r in self.cur.fetchall()]
+
+
     def select_fetch_tr_prob(self) -> list[float]:
         # get transition probabilities
-        self.cur.execute('SELECT elem FROM tr_prob ORDER BY from_motion, to_motion')
+        self.cur.execute('SELECT data FROM tr_prob ORDER BY from_motion, to_motion')
         return [r[0] for r in self.cur.fetchall()]
 
 
     def select_fetch_gaussian(self) -> list[list[float]]:
         # get gaussian of each motion
-        self.cur.execute('SELECT avr_x, avr_y, var_xx, var_xy, var_yy FROM gaussian ORDER BY motion')
+        self.cur.execute( \
+            'SELECT ' \
+            'avr_x, avr_y, ' \
+            'covar_xx, covar_xy, covar_yy ' \
+            'FROM gaussian ORDER BY motion' \
+        )
         return self.cur.fetchall()
